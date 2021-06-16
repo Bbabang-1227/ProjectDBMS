@@ -1,0 +1,148 @@
+1.
+SQL> select empno|| ',' ||ename|| ',' ||job|| ',' ||mgr||',' ||hiredate|| ',' ||sal|| ',' ||comm|| ',' || deptno THE_OUTPUT from emp;
+
+THE_OUTPUT
+------------------------------------------------------------------------------------------------------------------------
+7369,SMITH,CLERK,7902,80/12/17,800,,20
+7499,ALLEN,SALESMAN,7698,81/02/20,1600,300,30
+7521,WARD,SALESMAN,7698,81/02/22,1250,500,30
+7566,JONES,MANAGER,7839,81/04/02,2975,,20
+7654,MARTIN,SALESMAN,7698,81/09/28,1250,1400,30
+7698,BLAKE,MANAGER,7839,81/05/01,2850,,30
+7782,CLARK,MANAGER,7839,81/06/09,2450,,10
+7788,SCOTT,ANALYST,7566,87/04/19,3000,,20
+7839,KING,PRESIDENT,,81/11/17,5000,,10
+7844,TURNER,SALESMAN,7698,81/09/08,1500,0,30
+7876,ADAMS,CLERK,7788,87/05/23,1100,,20
+7900,JAMES,CLERK,7698,81/12/03,950,,30
+7902,FORD,ANALYST,7566,81/12/03,3000,,20
+7934,MILLER,CLERK,7782,82/01/23,1300,,10
+
+
+2.
+SQL> select ename , sal from emp where sal < 1500 or sal > 2850;
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+WARD             1250
+JONES            2975
+MARTIN           1250
+SCOTT            3000
+KING             5000
+ADAMS            1100
+JAMES             950
+FORD             3000
+MILLER           1300
+
+3.
+SQL> select ename , sal , hiredate from emp where hiredate between'1981/02/20'  and '1981/05/01' order by hiredate asc;
+
+ENAME             SAL HIREDATE
+---------- ---------- --------
+ALLEN            1600 81/02/20
+WARD             1250 81/02/22
+JONES            2975 81/04/02
+BLAKE            2850 81/05/01
+
+
+4.
+SQL> select ename , sal , deptno from emp where deptno in (10,30) and sal > 1500;
+
+ENAME             SAL     DEPTNO
+---------- ---------- ----------
+ALLEN            1600         30
+BLAKE            2850         30
+CLARK            2450         10
+KING             5000         10
+
+
+5.
+SQL> select ename , hiredate from emp where hiredate >= '82/01/01' and hiredate <'83/01/01';
+
+ENAME      HIREDATE
+---------- --------
+MILLER     82/01/23
+
+6.
+SQL> select ename from emp where (deptno = 30 or mgr = 7782) and instr(ename, 'L' , 1, 2)>0;
+
+ENAME
+----------
+ALLEN
+MILLER
+
+7.
+SQL> select ename , job , sal from emp where job = 'CLERK' or job = 'ANALYST' and sal not in(1000,300,500) ;
+
+ENAME      JOB              SAL
+---------- --------- ----------
+SMITH      CLERK            800
+SCOTT      ANALYST         3000
+ADAMS      CLERK           1100
+JAMES      CLERK            950
+FORD       ANALYST         3000
+MILLER     CLERK           1300
+
+8.
+select empno , ename ,sal ,sal*1.15 "NEW SALARY" , sal*1.15 - sal "INCREASE" from emp;
+
+ EMPNO   ENAME      SAL   NEW SALARY   INCREASE
+---------- ---------- ---------- ---------- ----------
+      7369 SMITH             800        920        120
+      7499 ALLEN            1600       1840        240
+      7521 WARD             1250     1437.5      187.5
+      7566 JONES            2975    3421.25     446.25
+      7654 MARTIN           1250     1437.5      187.5
+      7698 BLAKE            2850     3277.5      427.5
+      7782 CLARK            2450     2817.5      367.5
+      7788 SCOTT            3000       3450        450
+      7839 KING             5000       5750        750
+      7844 TURNER           1500       1725        225
+      7876 ADAMS            1100       1265        165
+      7900 JAMES             950     1092.5      142.5
+      7902 FORD             3000       3450        450
+      7934 MILLER           1300       1495        195
+
+9.
+SQL> select empno , ename , (sal*1.15)-sal "INCREASE" from emp;
+
+     EMPNO ENAME        INCREASE
+---------- ---------- ----------
+      7369 SMITH             120
+      7499 ALLEN             240
+      7521 WARD            187.5
+      7566 JONES          446.25
+      7654 MARTIN          187.5
+      7698 BLAKE           427.5
+      7782 CLARK           367.5
+      7788 SCOTT             450
+      7839 KING              750
+      7844 TURNER            225
+      7876 ADAMS             165
+      7900 JAMES           142.5
+      7902 FORD              450
+      7934 MILLER            195
+
+10.
+
+
+
+SQL> select ename , nvl2(comm, to_char(sal + comm),'NoCommision') as COMM from emp;
+
+ENAME      COMM
+---------- ----------------------------------------
+SMITH      NoCommision
+ALLEN      1900
+WARD       1750
+JONES      NoCommision
+MARTIN     2650
+BLAKE      NoCommision
+CLARK      NoCommision
+SCOTT      NoCommision
+KING       NoCommision
+TURNER     1500
+ADAMS      NoCommision
+JAMES      NoCommision
+FORD       NoCommision
+MILLER     NoCommision

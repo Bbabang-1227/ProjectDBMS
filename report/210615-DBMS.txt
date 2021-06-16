@@ -1,0 +1,248 @@
+1.
+select 'Monday, the ' || to_char(next_day(add_months(sahire, 6),'월'), 'ddspth') ||' of '||
+to_char(next_day(add_months(sahire, 6),'월'),' month','NLS_DATE_LANGUAGE=ENGLISH')||
+to_char(next_day(add_months(sahire, 6),'월'), ',yyyy') as "REVIEW" from sawon;
+
+REVIEW
+-------------------------------------------------
+Monday, the seventh of  july     ,1980
+Monday, the eighth of  may      ,1989
+Monday, the second of  september,1985
+Monday, the fifth of  november ,1990
+Monday, the second of  december ,1996
+Monday, the fourth of  june     ,1990
+Monday, the fourth of  april    ,1994
+Monday, the fifth of  november ,1984
+Monday, the fifth of  may      ,1997
+Monday, the third of  october  ,1988
+Monday, the fifth of  november ,1990
+Monday, the sixth of  november ,1995
+Monday, the seventh of  december ,1992
+Monday, the eighth of  april    ,1991
+Monday, the fourth of  february ,1985
+Monday, the third of  october  ,1983
+Monday, the eighth of  may      ,1989
+
+REVIEW
+-------------------------------------------------
+Monday, the seventh of  october  ,1991
+Monday, the fifth of  october  ,1981
+Monday, the fifth of  january  ,1987
+
+
+2.
+select saname , floor(months_between(sysdate , sahire)) ||'개월' as "MONTHS_WORKED" from sawon order by MONTHS_WORKED ;
+
+SANAME     MONTHS_WORKED
+---------- --------------------------------------------
+무궁화     295개월
+놀기만     300개월
+공부만     313개월
+채시라     332개월
+채송화     348개월
+최진실     362개월
+류명한     368개월
+이순라     373개월
+깨똥이     373개월
+류별나     378개월
+한국남     391개월
+공부해     391개월
+임꺽정     398개월
+강감찬     419개월
+이순신     435개월
+무궁화     442개월
+이성계     445개월
+
+SANAME     MONTHS_WORKED
+---------- --------------------------------------------
+이미라     458개월
+김유신     482개월
+홍길동     497개월
+
+3.
+select saname , sahire , to_char(sahire, 'day')  as "DAY" from sawon order by to_char(sahire,'d');
+
+SANAME     SAHIRE   DAY
+---------- -------- ---------
+공부만     95/05/01 월요일
+채송화     92/06/01 월요일
+최진실     91/04/01 월요일
+류명한     90/10/01 월요일
+깨똥이     90/05/01 화요일
+이성계     84/05/01 화요일
+이순라     90/05/01 화요일
+강감찬     86/07/01 화요일
+한국남     88/11/01 화요일
+홍길동     80/01/01 화요일
+공부해     88/11/01 화요일
+김유신     81/04/01 수요일
+무궁화     84/08/01 수요일
+채시라     93/10/01 금요일
+이순신     85/03/01 금요일
+이미라     83/04/01 금요일
+류별나     89/12/01 금요일
+
+SANAME     SAHIRE   DAY
+---------- -------- ---------
+무궁화     96/11/01 금요일
+임꺽정     88/04/01 금요일
+놀기만     96/06/01 토요일
+
+4.
+select sajob , case when sajob = '회장' then 'A' when sajob = '부장' then 'B' when sajob = '과장' then 'C' when sajob = '과장' then 'D' when sajob = '대리' then 'E'  when sajob = '사원' then 'F' end "GRADE" from sawon order by GRADE;
+
+SAJOB      G
+---------- -
+회장       A
+부장       B
+부장       B
+부장       B
+과장       C
+과장       C
+과장       C
+과장       C
+과장       C
+대리       E
+대리       E
+대리       E
+사원       F
+사원       F
+사원       F
+사원       F
+사원       F
+
+SAJOB      G
+---------- -
+사원       F
+사원       F
+사원       F
+
+5.
+select to_char(sysdate,'yyyy')||'년 '|| to_char(sysdate,'mm')||'월 ' || to_char(sysdate,'dd')||'일 ' || to_char(sysdate,'day') as today from dual;
+
+TODAY
+--------------------------
+2021년 06월 14일 월요일
+
+6.
+select trunc(sysdate - sahire) as "WORKDAY" from sawon;
+
+   WORKDAY
+----------
+     15140
+     11913
+     13254
+     11367
+      9144
+     11518
+     10118
+     13558
+      8991
+     12127
+     11367
+      9541
+     10605
+     11214
+     13466
+     13954
+     11913
+
+   WORKDAY
+----------
+     11032
+     14684
+     12767
+
+7.
+select sum(trunc(sysdate - sahire)+1)|| '일'as "TOTALWORKDAY" from sawon;
+
+TOTALWORKDAY
+------------------------------------------
+237693일
+
+8.
+select saname , sahire , add_months(sahire , 1) - sahire as "입사한 달의 근무한 일수"from sawon;
+
+SANAME     SAHIRE   입사한 달의 근무한 일수
+---------- -------- -----------------------
+홍길동     80/01/01                      31
+한국남     88/11/01                      30
+이순신     85/03/01                      31
+이순라     90/05/01                      31
+놀기만     96/06/01                      30
+류별나     89/12/01                      31
+채시라     93/10/01                      31
+이성계     84/05/01                      31
+무궁화     96/11/01                      30
+임꺽정     88/04/01                      30
+깨똥이     90/05/01                      31
+공부만     95/05/01                      31
+채송화     92/06/01                      30
+류명한     90/10/01                      31
+무궁화     84/08/01                      31
+이미라     83/04/01                      30
+공부해     88/11/01                      30
+
+SANAME     SAHIRE   입사한 달의 근무한 일수
+---------- -------- -----------------------
+최진실     91/04/01                      30
+김유신     81/04/01                      30
+강감찬     86/07/01                      31
+
+9.
+select saname , sahire , trunc(months_between(sysdate , sahire)/12,0)||'년 '||mod(trunc(months_between(sysdate , sahire)/12,0),12)||'개월' as "근무기간" from sawon;
+
+SANAME     SAHIRE   근무기간
+---------- -------- ---------------------------------------------------------------------------------------
+홍길동     80/01/01 41년 5개월
+한국남     88/11/01 32년 8개월
+이순신     85/03/01 36년 0개월
+이순라     90/05/01 31년 7개월
+놀기만     96/06/01 25년 1개월
+류별나     89/12/01 31년 7개월
+채시라     93/10/01 27년 3개월
+이성계     84/05/01 37년 1개월
+무궁화     96/11/01 24년 0개월
+임꺽정     88/04/01 33년 9개월
+깨똥이     90/05/01 31년 7개월
+공부만     95/05/01 26년 2개월
+채송화     92/06/01 29년 5개월
+류명한     90/10/01 30년 6개월
+무궁화     84/08/01 36년 0개월
+이미라     83/04/01 38년 2개월
+공부해     88/11/01 32년 8개월
+
+SANAME     SAHIRE   근무기간
+---------- -------- ---------------------------------------------------------------------------------------
+최진실     91/04/01 30년 6개월
+김유신     81/04/01 40년 4개월
+강감찬     86/07/01 34년 10개월
+
+10.
+select saname , sahire , floor((sysdate-sahire)/7)||'주'|| mod(floor(sysdate-sahire),7) || '일' as "WORKDATE"from sawon;
+
+SANAME     SAHIRE   WORKDATE
+---------- -------- ------------------------------------------------------------------------------------
+홍길동     80/01/01 2162주6일
+한국남     88/11/01 1701주6일
+이순신     85/03/01 1893주3일
+이순라     90/05/01 1623주6일
+놀기만     96/06/01 1306주2일
+류별나     89/12/01 1645주3일
+채시라     93/10/01 1445주3일
+이성계     84/05/01 1936주6일
+무궁화     96/11/01 1284주3일
+임꺽정     88/04/01 1732주3일
+깨똥이     90/05/01 1623주6일
+공부만     95/05/01 1363주0일
+채송화     92/06/01 1515주0일
+류명한     90/10/01 1602주0일
+무궁화     84/08/01 1923주5일
+이미라     83/04/01 1993주3일
+공부해     88/11/01 1701주6일
+
+SANAME     SAHIRE   WORKDATE
+---------- -------- ------------------------------------------------------------------------------------
+최진실     91/04/01 1576주0일
+김유신     81/04/01 2097주5일
+강감찬     86/07/01 1823주6일

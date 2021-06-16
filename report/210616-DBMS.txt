@@ -1,0 +1,47 @@
+1. select empno ,ename , job , sal from emp where job = (select job from emp where ename = 'ALLEN') and ename != 'ALLEN';
+
+2. select empno , ename , job , hiredate , sal from emp where job = (select job from emp where empno = 7521) and sal > (select sal from emp where empno = 7934);
+
+3. select empno , ename , job , sal , deptno from emp where sal < (select avg(sal) from emp);
+
+4. select deptno , min(sal) from emp group by deptno having min(sal) < (select min(sal) from emp);
+
+5. select job, avg(sal) from emp group by job having avg(sal)=(select min(avg(sal)) from emp group by job);
+
+6. select empno, ename, job, hiredate, deptno from emp e1where sal = (select max(sal) from emp e2 where e2.job = e1.job);
+
+7. select empno, ename, job, hiredate, sal, deptno from emp where sal >(select min(sal) from emp where deptno =30) and deptno != 30;
+
+8. select sal , comm from emp where (sal , comm) in (select sal , comm from emp where deptno = 30) and deptno != 30;
+
+9. select ename, hiredate from emp where deptno = (select deptno from emp where ename ='BLAKE');
+
+10 . select empno, ename, sal from emp where sal > (select avg(sal) from emp) order by sal desc;
+
+11. select empno, ename, sal from emp where deptno in(select distinct deptno from emp where ename like '%T%') order by empno;
+
+12. select ename, job, sal from emp where deptno = (select deptno from dept where loc = 'CHICAGO');
+
+13. select ename, sal from emp where mgr=(select empno from emp where ename='KING');
+
+14. select * from emp where job = (select job from emp where ename = 'FORD');
+
+15. select ename, job, sal, deptno from emp where job =(select job from emp where ename ='JONES') or sal >=(select sal from emp where ename ='FORD');
+
+16. select ename, job, sal from emp where sal = (select sal from emp where ename = 'SCOTT') or sal = (select sal from emp where ename = 'WARD');
+
+17. select ename, job, sal, deptno from emp where job in (select job from emp natural join dept where dname ='SALES');
+
+18. select deptno, ename, sal, (select avg(sal) from emp where e.job = job) from emp e where sal < (select avg(sal) from emp where e.job = job);
+
+19. select e1.empno , e1.ename , d.dname ,(select count(1) from emp e2 where e1.deptno = e2.deptno) "소속부서 인원수" , e1.job , (select avg(sal) from emp e3 where e3.deptno = e1.deptno) "소속 업무 급여 평균" , e1.sal from emp e1,dept d where e1.deptno = d.deptno;
+
+20. select empno , ename, deptno , job , sal , (select avg(sal) from emp e2 where e1. deptno = e2.deptno) "소속 업무 평균급여" from emp e1;
+
+21. select empno , ename , hiredate , sal from emp e1 where (select count(empno) from emp e2 where  e2.mgr = e1.empno) > 0;
+
+22. select empno , ename , job , deptno from emp e1 where not exists (select empno from emp e2 where  e2.mgr = e1.empno);
+
+23. select ename , job , mgr from emp connect by prior empno = mgr start with ename = 'BLAKE';
+
+24. select ename , job , mgr from emp where mgr = (select mgr from emp where ename = 'BLAKE' );
